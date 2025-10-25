@@ -1,6 +1,10 @@
-// Test meal plans routes
+// Test meal plans routes with mocks
 const request = require('supertest');
 const app = require('../app');
+
+// Mock the data modules
+jest.mock('../data/mealplans');
+jest.mock('../data/recipes');
 
 describe('Meal Plans Routes', () => {
     describe('GET /mealplans', () => {

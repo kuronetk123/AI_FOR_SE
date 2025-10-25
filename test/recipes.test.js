@@ -1,6 +1,9 @@
-// Test recipes routes
+// Test recipes routes with mocks
 const request = require('supertest');
 const app = require('../app');
+
+// Mock the data modules
+jest.mock('../data/recipes');
 
 describe('Recipes Routes', () => {
     describe('GET /recipes', () => {
