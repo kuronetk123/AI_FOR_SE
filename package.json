@@ -1,16 +1,14 @@
 {
-  "name": "meal-planning-app",
+  "name": "ai_workshop_demo",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
     "test": "jest --coverage"
   },
-  "keywords": ["meal-planning", "nutrition", "recipes"],
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "A meal planning application with recipe management and nutrition tracking",
+  "description": "",
   "dependencies": {
     "body-parser": "^2.2.0",
     "ejs": "^3.1.10",
@@ -18,7 +16,6 @@
   },
   "devDependencies": {
     "jest": "^30.0.3",
-    "nodemon": "^3.0.2",
     "supertest": "^7.1.1"
   }
 }

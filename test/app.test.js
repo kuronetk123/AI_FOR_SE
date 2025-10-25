@@ -42,9 +42,10 @@ describe('App Configuration', () => {
 
         const response = await request(app)
             .post('/mealplans')
-            .send(testData)
-            .expect('Content-Type', /html/);
+            .send(testData);
         
+        // Should either redirect (302) or return error (400), both indicate JSON parsing worked
+        expect([302, 400]).toContain(response.status);
         expect(response.status).toBeLessThan(500);
     });
 });

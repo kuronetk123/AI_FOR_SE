@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
     const { date, name, userId, meals } = req.body;
     
     // Validation
-    if (!date || !name || !meals || meals.length === 0) {
+    if (!date || !name || !meals) {
         return res.status(400).render('error', {
             title: 'Invalid Data',
             message: 'Please provide date, name, and at least one meal.'
@@ -60,6 +60,14 @@ router.post('/', (req, res) => {
     if (typeof meals === 'string') {
         try {
             const mealsArray = JSON.parse(meals);
+            
+            // Check if parsed meals array is empty
+            if (!Array.isArray(mealsArray) || mealsArray.length === 0) {
+                return res.status(400).render('error', {
+                    title: 'Invalid Data',
+                    message: 'Please provide at least one meal.'
+                });
+            }
             
             mealsArray.forEach(meal => {
                 const recipe = recipes.find(r => r.id === parseInt(meal.recipeId));
