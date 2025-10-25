@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Meal Planning App</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+    
+    <main class="container">
+        <div class="page-header">
+            <h1><%= title %></h1>
+        </div>
+
+        <div class="form-container">
+            <form id="mealPlanForm" action="/mealplans" method="POST">
+                <div class="form-group">
+                    <label for="name">Meal Plan Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="e.g., My Weekly Plan">
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date *</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <h3>Select Meals</h3>
+                    <p class="form-hint">Choose recipes for each meal type</p>
+                    
+                    <div id="mealsContainer">
+                        <% mealTypes.forEach((mealType, index) => { %>
+                            <div class="meal-selector">
+                                <h4><%= mealType %></h4>
+                                <select name="meal_<%= index %>" class="meal-select" data-meal-type="<%= mealType %>">
+                                    <option value="">-- Select a recipe --</option>
+                                    <% recipes.forEach(recipe => { %>
+                                        <option value="<%= recipe.id %>" 
+                                                data-calories="<%= recipe.calories %>"
+                                                data-protein="<%= recipe.nutrition.protein %>"
+                                                data-carbs="<%= recipe.nutrition.carbs %>"
+                                                data-fat="<%= recipe.nutrition.fat %>">
+                                            <%= recipe.name %> (<%= recipe.calories %> kcal)
+                                        </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+
+                <div class="nutrition-preview">
+                    <h3>Nutrition Preview</h3>
+                    <div class="preview-stats">
+                        <div class="preview-stat">
+                            <span class="preview-label">Total Calories:</span>
+                            <span id="previewCalories" class="preview-value">0 kcal</span>
+                        </div>
+                        <div class="preview-stat">
+                            <span class="preview-label">Protein:</span>
+                            <span id="previewProtein" class="preview-value">0g</span>
+                        </div>
+                        <div class="preview-stat">
+                            <span class="preview-label">Carbs:</span>
+                            <span id="previewCarbs" class="preview-value">0g</span>
+                        </div>
+                        <div class="preview-stat">
+                            <span class="preview-label">Fat:</span>
+                            <span id="previewFat" class="preview-value">0g</span>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="mealsData" name="meals" value="[]">
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Create Meal Plan</button>
+                    <a href="/mealplans" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Update nutrition preview when meals are selected
+        const mealSelects = document.querySelectorAll('.meal-select');
+        const previewCalories = document.getElementById('previewCalories');
+        const previewProtein = document.getElementById('previewProtein');
+        const previewCarbs = document.getElementById('previewCarbs');
+        const previewFat = document.getElementById('previewFat');
+        const mealsDataInput = document.getElementById('mealsData');
+
+        function updatePreview() {
+            let totalCalories = 0;
+            let totalProtein = 0;
+            let totalCarbs = 0;
+            let totalFat = 0;
+            const selectedMeals = [];
+
+            mealSelects.forEach(select => {
+                const selectedOption = select.options[select.selectedIndex];
+                if (selectedOption.value) {
+                    const calories = parseInt(selectedOption.dataset.calories) || 0;
+                    const protein = parseInt(selectedOption.dataset.protein) || 0;
+                    const carbs = parseInt(selectedOption.dataset.carbs) || 0;
+                    const fat = parseInt(selectedOption.dataset.fat) || 0;
+
+                    totalCalories += calories;
+                    totalProtein += protein;
+                    totalCarbs += carbs;
+                    totalFat += fat;
+
+                    selectedMeals.push({
+                        type: select.dataset.mealType,
+                        recipeId: selectedOption.value
+                    });
+                }
+            });
+
+            previewCalories.textContent = totalCalories + ' kcal';
+            previewProtein.textContent = totalProtein + 'g';
+            previewCarbs.textContent = totalCarbs + 'g';
+            previewFat.textContent = totalFat + 'g';
+
+            mealsDataInput.value = JSON.stringify(selectedMeals);
+        }
+
+        mealSelects.forEach(select => {
+            select.addEventListener('change', updatePreview);
+        });
+
+        // Set default date to today
+        document.getElementById('date').valueAsDate = new Date();
+    </script>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
+

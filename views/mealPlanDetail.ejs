@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Meal Planning App</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+    
+    <main class="container">
+        <div class="page-header">
+            <h1><%= mealPlan.name %></h1>
+            <span class="date"><%= new Date(mealPlan.date).toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+        </div>
+
+        <div class="meal-plan-detail">
+            <!-- Nutrition Overview -->
+            <div class="nutrition-overview">
+                <h2>Nutrition Overview</h2>
+                <div class="nutrition-stats">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Calories</div>
+                        <div class="stat-value"><%= mealPlan.totalCalories %></div>
+                        <div class="stat-unit">kcal</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Target Calories</div>
+                        <div class="stat-value"><%= mealPlan.targetCalories %></div>
+                        <div class="stat-unit">kcal</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Protein</div>
+                        <div class="stat-value"><%= mealPlan.totalMacros.protein %></div>
+                        <div class="stat-unit">g</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Carbs</div>
+                        <div class="stat-value"><%= mealPlan.totalMacros.carbs %></div>
+                        <div class="stat-unit">g</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Fat</div>
+                        <div class="stat-value"><%= mealPlan.totalMacros.fat %></div>
+                        <div class="stat-unit">g</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meals -->
+            <div class="meals-section">
+                <h2>Meals</h2>
+                <div class="meals-list">
+                    <% mealPlan.meals.forEach(meal => { %>
+                        <div class="meal-item">
+                            <div class="meal-header">
+                                <h3><%= meal.type %></h3>
+                                <span class="meal-calories"><%= meal.calories %> kcal</span>
+                            </div>
+                            
+                            <div class="meal-content">
+                                <div class="meal-info">
+                                    <h4><%= meal.name %></h4>
+                                    <div class="meal-macros">
+                                        <span class="macro-badge">P: <%= meal.macros.protein %>g</span>
+                                        <span class="macro-badge">C: <%= meal.macros.carbs %>g</span>
+                                        <span class="macro-badge">F: <%= meal.macros.fat %>g</span>
+                                    </div>
+                                    <% if (meal.recipeDetails) { %>
+                                        <p class="meal-description"><%= meal.recipeDetails.description %></p>
+                                        <div class="meal-meta">
+                                            <span>⏱️ <%= meal.recipeDetails.totalTime %></span>
+                                            <span>👥 <%= meal.recipeDetails.servings %> servings</span>
+                                            <span>📊 <%= meal.recipeDetails.difficulty %></span>
+                                        </div>
+                                    <% } %>
+                                </div>
+                                <div class="meal-actions">
+                                    <a href="/recipes/<%= meal.recipeId %>" class="btn btn-sm btn-primary">View Recipe</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/mealplans" class="btn btn-secondary">Back to Meal Plans</a>
+                <form action="/mealplans/<%= mealPlan.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this meal plan?')">
+                    <button type="submit" class="btn btn-danger">Delete Meal Plan</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
+

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Meal Planning App</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+    
+    <main class="container">
+        <div class="recipe-detail">
+            <div class="recipe-header">
+                <h1><%= recipe.name %></h1>
+                <p class="recipe-description"><%= recipe.description %></p>
+                
+                <div class="recipe-info-bar">
+                    <div class="info-item">
+                        <span class="info-label">Prep Time</span>
+                        <span class="info-value"><%= recipe.prepTime %></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Cook Time</span>
+                        <span class="info-value"><%= recipe.cookTime %></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Total Time</span>
+                        <span class="info-value"><%= recipe.totalTime %></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Servings</span>
+                        <span class="info-value"><%= recipe.servings %></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Difficulty</span>
+                        <span class="info-value"><%= recipe.difficulty %></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-main">
+                <div class="recipe-left">
+                    <!-- Nutrition Information -->
+                    <div class="section nutrition-section">
+                        <h2>Nutrition Information</h2>
+                        <div class="nutrition-grid">
+                            <div class="nutrition-item-large">
+                                <span class="nutrition-label">Calories</span>
+                                <span class="nutrition-value-large"><%= recipe.calories %></span>
+                                <span class="nutrition-unit">kcal</span>
+                            </div>
+                            <div class="nutrition-item-large">
+                                <span class="nutrition-label">Protein</span>
+                                <span class="nutrition-value-large"><%= recipe.nutrition.protein %></span>
+                                <span class="nutrition-unit">g</span>
+                            </div>
+                            <div class="nutrition-item-large">
+                                <span class="nutrition-label">Carbs</span>
+                                <span class="nutrition-value-large"><%= recipe.nutrition.carbs %></span>
+                                <span class="nutrition-unit">g</span>
+                            </div>
+                            <div class="nutrition-item-large">
+                                <span class="nutrition-label">Fat</span>
+                                <span class="nutrition-value-large"><%= recipe.nutrition.fat %></span>
+                                <span class="nutrition-unit">g</span>
+                            </div>
+                            <div class="nutrition-item-large">
+                                <span class="nutrition-label">Fiber</span>
+                                <span class="nutrition-value-large"><%= recipe.nutrition.fiber %></span>
+                                <span class="nutrition-unit">g</span>
+                            </div>
+                            <div class="nutrition-item-large">
+                                <span class="nutrition-label">Sugar</span>
+                                <span class="nutrition-value-large"><%= recipe.nutrition.sugar %></span>
+                                <span class="nutrition-unit">g</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ingredients -->
+                    <div class="section ingredients-section">
+                        <h2>Ingredients</h2>
+                        <ul class="ingredients-list">
+                            <% recipe.ingredients.forEach(ingredient => { %>
+                                <li>
+                                    <span class="ingredient-amount"><%= ingredient.amount %></span>
+                                    <span class="ingredient-name"><%= ingredient.name %></span>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="recipe-right">
+                    <!-- Instructions -->
+                    <div class="section instructions-section">
+                        <h2>Instructions</h2>
+                        <ol class="instructions-list">
+                            <% recipe.steps.forEach(step => { %>
+                                <li>
+                                    <span class="step-number">Step <%= step.step %></span>
+                                    <p><%= step.description %></p>
+                                </li>
+                            <% }); %>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="section tags-section">
+                <h3>Tags</h3>
+                <div class="tags-list">
+                    <% recipe.tags.forEach(tag => { %>
+                        <span class="tag-large"><%= tag %></span>
+                    <% }); %>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/recipes" class="btn btn-secondary">Back to Recipes</a>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
+

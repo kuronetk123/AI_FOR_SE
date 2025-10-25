@@ -1,0 +1,24 @@
+{
+  "name": "meal-planning-app",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "jest --coverage"
+  },
+  "keywords": ["meal-planning", "nutrition", "recipes"],
+  "author": "",
+  "license": "ISC",
+  "description": "A meal planning application with recipe management and nutrition tracking",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "jest": "^30.0.3",
+    "nodemon": "^3.0.2",
+    "supertest": "^7.1.1"
+  }
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Meal Planning App</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+    
+    <main class="container">
+        <div class="page-header">
+            <h1><%= title %></h1>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <form action="/recipes" method="GET" class="filter-form">
+                <div class="filter-group">
+                    <label for="mealType">Meal Type</label>
+                    <select name="mealType" id="mealType" onchange="this.form.submit()">
+                        <option value="">All</option>
+                        <option value="Breakfast" <%= selectedMealType === 'Breakfast' ? 'selected' : '' %>>Breakfast</option>
+                        <option value="Lunch" <%= selectedMealType === 'Lunch' ? 'selected' : '' %>>Lunch</option>
+                        <option value="Dinner" <%= selectedMealType === 'Dinner' ? 'selected' : '' %>>Dinner</option>
+                        <option value="Snack" <%= selectedMealType === 'Snack' ? 'selected' : '' %>>Snack</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="difficulty">Difficulty</label>
+                    <select name="difficulty" id="difficulty" onchange="this.form.submit()">
+                        <option value="">All</option>
+                        <option value="Easy" <%= selectedDifficulty === 'Easy' ? 'selected' : '' %>>Easy</option>
+                        <option value="Medium" <%= selectedDifficulty === 'Medium' ? 'selected' : '' %>>Medium</option>
+                        <option value="Hard" <%= selectedDifficulty === 'Hard' ? 'selected' : '' %>>Hard</option>
+                    </select>
+                </div>
+                
+                <% if (selectedMealType || selectedDifficulty) { %>
+                    <a href="/recipes" class="btn btn-secondary">Clear Filters</a>
+                <% } %>
+            </form>
+        </div>
+
+        <% if (recipes.length === 0) { %>
+            <div class="empty-state">
+                <h2>No Recipes Found</h2>
+                <p>Try adjusting your filters.</p>
+                <a href="/recipes" class="btn btn-primary">View All Recipes</a>
+            </div>
+        <% } else { %>
+            <div class="recipe-grid">
+                <% recipes.forEach(recipe => { %>
+                    <div class="recipe-card">
+                        <div class="recipe-image" style="background-image: url('<%= recipe.image %>')">
+                            <div class="recipe-badges">
+                                <span class="badge badge-<%= recipe.difficulty.toLowerCase() %>"><%= recipe.difficulty %></span>
+                                <span class="badge badge-mealtype"><%= recipe.mealType %></span>
+                            </div>
+                        </div>
+                        
+                        <div class="recipe-content">
+                            <h3><%= recipe.name %></h3>
+                            <p class="recipe-description"><%= recipe.description %></p>
+                            
+                            <div class="recipe-meta">
+                                <span>⏱️ <%= recipe.totalTime %></span>
+                                <span>🔥 <%= recipe.calories %> kcal</span>
+                                <span>👥 <%= recipe.servings %> servings</span>
+                            </div>
+                            
+                            <div class="recipe-nutrition">
+                                <span class="nutrition-badge">P: <%= recipe.nutrition.protein %>g</span>
+                                <span class="nutrition-badge">C: <%= recipe.nutrition.carbs %>g</span>
+                                <span class="nutrition-badge">F: <%= recipe.nutrition.fat %>g</span>
+                            </div>
+                            
+                            <div class="recipe-tags">
+                                <% recipe.tags.slice(0, 3).forEach(tag => { %>
+                                    <span class="tag"><%= tag %></span>
+                                <% }); %>
+                            </div>
+                        </div>
+                        
+                        <div class="recipe-footer">
+                            <a href="/recipes/<%= recipe.id %>" class="btn btn-primary">View Recipe</a>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
+
