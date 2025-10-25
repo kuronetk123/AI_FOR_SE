@@ -46,8 +46,9 @@ A comprehensive meal planning application built with Express.js and EJS, featuri
 - **Backend**: Node.js with Express.js
 - **View Engine**: EJS (Embedded JavaScript)
 - **Styling**: Custom CSS with CSS Grid and Flexbox
-- **Testing**: Jest & Supertest
+- **Testing**: Jest & Supertest with comprehensive mock system
 - **Body Parsing**: body-parser
+- **Mock System**: Jest module mocks for isolated testing
 
 ## 📁 Project Structure
 
@@ -82,7 +83,16 @@ AI_FOR_SE/
 └── test/                       # Test files
     ├── app.test.js            # App-level tests
     ├── mealplans.test.js      # Meal plan route tests
-    └── recipes.test.js        # Recipe route tests
+    ├── recipes.test.js        # Recipe route tests
+    ├── log.md                 # Test execution log
+    ├── mocks/                 # Mock system
+    │   ├── mockData.js        # Reusable mock data and generators
+    │   ├── mockHelpers.js     # Express mock utilities and assertions
+    │   └── README.md          # Mock system documentation
+    └── __mocks__/             # Jest module mocks
+        └── data/
+            ├── mealplans.js   # Mocked meal plan data layer
+            └── recipes.js     # Mocked recipe data layer
 ```
 
 ## 🚀 Installation
@@ -101,12 +111,12 @@ AI_FOR_SE/
 
 2. **Install dependencies**:
    ```bash
-   npm install
+   npm install 
    ```
 
 3. **Start the development server**:
    ```bash
-   npm run dev
+   npm run dev 
    ```
    
    Or use the standard start command:
@@ -180,7 +190,7 @@ AI_FOR_SE/
 
 ## 🧪 Testing
 
-The application includes comprehensive tests for all major features.
+The application includes comprehensive tests for all major features with a complete mock system for isolated testing.
 
 ### Run Tests
 
@@ -197,17 +207,52 @@ npm test -- --coverage
 ### Test Files
 
 - **app.test.js**: Tests main application routes and middleware
-- **mealplans.test.js**: Tests meal plan CRUD operations
+- **mealplans.test.js**: Tests meal plan CRUD operations and integration workflows
 - **recipes.test.js**: Tests recipe viewing and filtering
 
-### Example Test Scenarios
+### Mock System
 
+The project includes a comprehensive Jest mock system for reliable testing:
+
+#### Mock Files Structure
+```
+test/
+├── mocks/
+│   ├── mockData.js          # Reusable mock data and generators
+│   ├── mockHelpers.js       # Express mock utilities and assertions
+│   └── README.md           # Mock system documentation
+└── __mocks__/
+    └── data/
+        ├── mealplans.js     # Mocked meal plan data layer
+        └── recipes.js       # Mocked recipe data layer
+```
+
+#### Mock Features
+- **Isolated Testing**: Each test runs with clean mock data
+- **Data Generators**: Helper functions to create test data
+- **Express Mocks**: Mock request/response objects for route testing
+- **Assertion Helpers**: Utilities for common test assertions
+- **Test Isolation**: Automatic cleanup between tests
+
+### Test Categories
+
+#### Unit Tests (26 tests)
 ✅ Create meal plan with valid data  
 ✅ Validate meal plan data (missing fields)  
 ✅ Filter recipes by meal type and difficulty  
 ✅ Calculate total calories correctly  
 ✅ Handle 404 errors for non-existent resources  
 ✅ Delete meal plans successfully  
+
+#### Integration Tests (3 tests)
+✅ Complete meal plan lifecycle (Create → View → Delete)  
+✅ Validation error handling  
+✅ Multi-meal nutrition calculation  
+
+### Test Results
+- **Total Tests**: 29 passed
+- **Coverage**: 97.56% statements, 94.59% branches
+- **Status**: ✅ All tests passing  
 
 ## 🎯 Core Features Implementation
 
@@ -279,6 +324,13 @@ Potential features to add:
 - Nutritional goal setting
 - Recipe search functionality
 - Custom recipe creation
+
+### Testing Enhancements
+- E2E testing with Playwright/Cypress
+- Performance testing for large datasets
+- API documentation with Swagger
+- Continuous integration setup
+- Test data factories for complex scenarios
 
 ## 📝 License
 
